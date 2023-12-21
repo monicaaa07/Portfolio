@@ -7,7 +7,7 @@ interface ProfilePictureProps {
 }
 
 const ProfilePicture: React.FC<ProfilePictureProps> = ({ src, alt }) => {
-  return <img src={src} alt={alt} style={{ width: '150px', height: '150px', borderRadius: '50%', marginLeft:'42.5%'}} />;
+  return <img src={src} alt={alt} style={{ width: '150px', height: '150px', borderRadius: '50%', marginLeft:'44%'}} />;
 };
 
 export default ProfilePicture;

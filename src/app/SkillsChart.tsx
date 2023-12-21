@@ -11,7 +11,7 @@ const SkillsChart: React.FC = () => {
     // Select the existing chart and remove its contents
     const existingChart = d3.select('#bar-chart');
     existingChart.selectAll('*').remove();
-    let svg = existingChart.append('svg').attr('width', 1000).attr('height', 800);
+    let svg = existingChart.append('svg').attr('width', 1000).attr('height', 510);
 
     const barWidth = 50;
     const barPadding = 10;
@@ -30,34 +30,48 @@ const SkillsChart: React.FC = () => {
       .attr('height', (d) => 40)
       .attr('fill', (d) => colorScale(d));
 
-    // Add labels to the center of each bar
-    svg
-      .selectAll('text')
-      .data(numericalData)
-      .enter()
-      .append('text')
-      .text((d) => d)
-      .attr('x', (d, i) => i * (barWidth + barPadding) + barWidth / 2)
-      .attr('y', (d) => 400 - 40 / 2)
-      .attr('text-anchor', 'middle') // Center the text horizontally
-      .attr('alignment-baseline', 'middle') // Center the text vertically
-      .attr('fill', 'white');
+  // Add labels to the center of each bar
+svg
+.selectAll('text')
+.data(numericalData)
+.enter()
+.append('text')
+.text((d) => d)
+.attr('x', (d, i) => i * (barWidth + barPadding) + barWidth / 2)
+.attr('y', (d) => 400 - 40 / 2  )
+.attr('text-anchor', 'middle') // Center the text horizontally
+.attr('alignment-baseline', 'middle') // Center the text vertically
+.attr('fill', 'white');
 
-    // Add x-axis labels
-    svg
-      .selectAll('.x-axis-label')
-      .data(labelData)
-      .enter()
-      .append('text')
-      .text((d) => d)
-      .attr('x', (d, i) => i * (barWidth + barPadding) + barWidth / 3)
-      .attr('y', 400 + 30) // Adjust y to position below the x-axis
-      .attr('text-anchor', 'middle') // Center the text horizontally
-      .attr('alignment-baseline', 'middle') // Center the text vertically
-      .attr('fill', 'white')
-      .attr('class', 'x-axis-label')
-      .attr('transform', (d, i) => `rotate(-45, ${i * (barWidth + barPadding) + barWidth / 2}, ${400 + 20})`) // Rotate each label individually
-      .style('font-size', 12);
+// Add labels with gap to the center of each bar
+svg
+.selectAll('.x-axis-label-group')
+.data<string>(labelData)
+.enter()
+.append('g')
+.attr('transform', (d, i) => `translate(${i * (barWidth + barPadding) + barWidth / 3 +30}, ${400 + 20}) rotate(-45)`)
+// .attr('transform', (d, i) => `translate(${i * (barWidth + barPadding) + barWidth / 3 }, ${400 + 40}) `)
+.each(function (d, i) {
+  // Append rectangle
+  d3.select(this)
+    .append('rect')
+    .attr('x', -barWidth-29)
+    .attr('y', -10)
+    .attr('width', barWidth+30)
+    .attr('height', 20)
+    .attr('fill', 'black')
+    .attr('class', 'x-axis-label-background');
+
+  // Append text
+  d3.select(this)
+    .append('text')
+    .text(d)
+    .attr('text-anchor', 'end')
+    .attr('alignment-baseline', 'middle')
+    .attr('fill', 'white')
+    .attr('class', 'x-axis-label');
+});
+
 
   }, []);
 
